@@ -1,0 +1,12 @@
+# Classes compiladas
+out/
+target/
+*.class
+
+# Arquivos de IDE
+.idea/
+*.iml
+.vscode/
+
+# Logs e temporarios
+*.log
