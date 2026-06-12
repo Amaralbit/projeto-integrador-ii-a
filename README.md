@@ -55,13 +55,26 @@ mysql -u root -p < banco/agenda_telefonica.sql
 
 > Ou abra o arquivo `banco/agenda_telefonica.sql` no **MySQL Workbench** e execute.
 
-### Passo 2 — Ajustar usuário e senha
-Abra `src/main/java/com/agenda/dao/ConexaoBD.java` e ajuste, se necessário:
+### Passo 2 — Configurar usuário e senha
+Por segurança, as credenciais do MySQL não ficam salvas no código. Antes de
+executar, defina as variáveis de ambiente.
 
-```java
-private static final String USUARIO = "root";
-private static final String SENHA   = "root"; // sua senha do MySQL
+No PowerShell:
+
+```powershell
+$env:AGENDA_DB_USUARIO = "root"
+$env:AGENDA_DB_SENHA = "sua_senha"
 ```
+
+No Prompt de Comando:
+
+```bat
+set AGENDA_DB_USUARIO=root
+set AGENDA_DB_SENHA=sua_senha
+```
+
+A URL padrão é `jdbc:mysql://localhost:3306/agenda_telefonica`. Para usar outra
+URL, defina também a variável opcional `AGENDA_DB_URL`.
 
 ### Passo 3 — Compilar e executar
 

@@ -9,12 +9,9 @@ public class ConexaoBD {
 
     // Endereco do banco. "localhost:3306" = MySQL rodando na propria maquina.
     // "agenda_telefonica" e o nome do banco (veja o arquivo banco/agenda_telefonica.sql).
-    private static final String URL =
+    private static final String URL_PADRAO =
             "jdbc:mysql://localhost:3306/agenda_telefonica"
             + "?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8";
-
-    private static final String USUARIO = "victor";
-    private static final String SENHA = "Th19vt26@"; // <-- troque pela senha do seu MySQL
 
     /**
      * Abre e retorna uma conexao com o banco.
@@ -34,6 +31,18 @@ public class ConexaoBD {
                     "Driver JDBC do MySQL nao encontrado. "
                     + "Verifique se o mysql-connector-j esta no projeto.", e);
         }
-        return DriverManager.getConnection(URL, USUARIO, SENHA);
+        String url = System.getenv().getOrDefault("AGENDA_DB_URL", URL_PADRAO);
+        String usuario = exigirVariavel("AGENDA_DB_USUARIO");
+        String senha = exigirVariavel("AGENDA_DB_SENHA");
+        return DriverManager.getConnection(url, usuario, senha);
+    }
+
+    private static String exigirVariavel(String nome) throws SQLException {
+        String valor = System.getenv(nome);
+        if (valor == null || valor.isBlank()) {
+            throw new SQLException("Defina a variavel de ambiente " + nome
+                    + " antes de executar a aplicacao.");
+        }
+        return valor;
     }
 }
